@@ -3,10 +3,6 @@ import type { Standing } from '@/lib/supabase/types'
 import Last5Results from './Last5Results'
 import TeamLogo from '@/components/ui/TeamLogo'
 
-type TeamLast5 = {
-  teamId: string
-  results: ('W' | 'L')[]
-}
 
 export default function StandingsTable({
   standings,

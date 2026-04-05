@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import AdminLogoutButton from '@/components/admin/LogoutButton'
+import Link from 'next/link'
 
 export const runtime = 'edge'
 
@@ -32,11 +33,11 @@ export default async function AdminLayout({
       </header>
 
       <nav className="bg-brand-panel/50 border-b border-brand-teal/10 px-6 py-2 flex gap-6">
-        <a href="/admin"          className="text-brand-teal hover:text-brand-amber text-sm transition-colors">Dashboard</a>
-        <a href="/admin/results"  className="text-brand-teal hover:text-brand-amber text-sm transition-colors">Resultados</a>
-        <a href="/admin/teams"    className="text-brand-teal hover:text-brand-amber text-sm transition-colors">Equipos</a>
-        <a href="/admin/sponsors" className="text-brand-teal hover:text-brand-amber text-sm transition-colors">Patrocinadores</a>
-        <a href="/"               className="text-brand-teal hover:text-brand-amber text-sm transition-colors ml-auto">← Ver web</a>
+        <Link href="/admin"          className="text-brand-teal hover:text-brand-amber text-sm transition-colors">Dashboard</Link>
+        <Link href="/admin/results"  className="text-brand-teal hover:text-brand-amber text-sm transition-colors">Resultados</Link>
+        <Link href="/admin/teams"    className="text-brand-teal hover:text-brand-amber text-sm transition-colors">Equipos</Link>
+        <Link href="/admin/sponsors" className="text-brand-teal hover:text-brand-amber text-sm transition-colors">Patrocinadores</Link>
+        <Link href="/"               className="text-brand-teal hover:text-brand-amber text-sm transition-colors ml-auto">← Ver web</Link>
       </nav>
 
       <main className="max-w-6xl mx-auto px-6 py-8">{children}</main>
