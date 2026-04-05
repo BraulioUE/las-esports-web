@@ -1,0 +1,56 @@
+import type { Match, Team } from '@/lib/supabase/types'
+import { formatDate, formatTime } from '@/lib/utils'
+import Badge from '@/components/ui/Badge'
+
+type MatchFull = Match & {
+  team_a: Pick<Team, 'id' | 'nombre' | 'siglas'>
+  team_b: Pick<Team, 'id' | 'nombre' | 'siglas'>
+}
+
+export default function MatchHistory({
+  matches,
+  teamId,
+}: {
+  matches: MatchFull[]
+  teamId: string
+}) {
+  if (matches.length === 0) {
+    return <p className="text-brand-teal text-sm">Sin historial de partidas.</p>
+  }
+
+  return (
+    <div className="space-y-2">
+      {matches.map(match => {
+        const played  = match.ganador_id !== null
+        const won     = match.ganador_id === teamId
+        const opponent = match.team_a.id === teamId ? match.team_b : match.team_a
+
+        return (
+          <div
+            key={match.id}
+            className="flex items-center justify-between py-2 border-b border-brand-teal/10"
+          >
+            <div className="flex items-center gap-3">
+              {played ? (
+                <Badge variant={won ? 'win' : 'loss'}>{won ? 'V' : 'D'}</Badge>
+              ) : (
+                <Badge variant="pending">Pend.</Badge>
+              )}
+              <span className="text-brand-teal text-sm">vs</span>
+              <span className="text-brand-teal-light text-sm font-semibold">
+                {opponent.nombre}
+              </span>
+              <span className="text-brand-teal text-xs">({opponent.siglas})</span>
+            </div>
+            <div className="text-right">
+              <p className="text-brand-teal text-xs">{formatDate(match.fecha)}</p>
+              {match.hora && (
+                <p className="text-brand-teal/60 text-xs">{formatTime(match.hora)}</p>
+              )}
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}

@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-brand-navy:       #132C47;
+  --color-brand-panel:      #294C63;
+  --color-brand-teal:       #78AEAD;
+  --color-brand-teal-light: #D4ECE9;
+  --color-brand-coral:      #D86350;
+  --color-brand-amber:      #FBAE54;
+
+  --font-sans:    var(--font-inter);
+  --font-display: var(--font-rajdhani);
+}
+
+body {
+  background-color: #132C47;
+  color: #D4ECE9;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #132C47;
+}
+::-webkit-scrollbar-thumb {
+  background: #294C63;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #78AEAD;
+}
