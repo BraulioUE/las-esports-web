@@ -1,17 +1,11 @@
 import Link from 'next/link'
 import type { Match, Team } from '@/lib/supabase/types'
 import Card from '@/components/ui/Card'
-import Badge from '@/components/ui/Badge'
-import { formatDate, isToday, isLiveNow, horaChile } from '@/lib/utils'
+import { formatDate, isToday } from '@/lib/utils'
 
 type MatchWithTeams = Match & {
   team_a: Pick<Team, 'nombre' | 'siglas' | 'logo_url'>
   team_b: Pick<Team, 'nombre' | 'siglas' | 'logo_url'>
-}
-
-function formatHora(hora: string) {
-  const [h, m] = hora.split(':')
-  return `${h}:${m}`
 }
 
 export default function UpcomingMatches({ matches }: { matches: MatchWithTeams[] }) {
@@ -32,11 +26,10 @@ export default function UpcomingMatches({ matches }: { matches: MatchWithTeams[]
         ) : (
           <div className="space-y-3">
             {matches.map(match => {
-              const live  = isLiveNow(match.fecha, match.hora) && !match.ganador_id
-              const today = isToday(match.fecha) && !match.ganador_id && !live
+              const today = isToday(match.fecha) && !match.ganador_id
               return (
-                <div key={match.id} className="rounded-xl overflow-hidden border border-brand-amber/20">
-                  <Card className="p-4 flex items-center gap-4 rounded-none border-0">
+                <Link key={match.id} href="/calendar">
+                  <Card className="p-4 flex items-center gap-4 hover:border-brand-amber/40 transition-colors cursor-pointer">
                     <div className="flex-1 flex items-center justify-end gap-3">
                       <span className="font-display font-bold text-brand-teal-light text-right hidden sm:block">
                         {match.team_a.nombre}
@@ -44,27 +37,13 @@ export default function UpcomingMatches({ matches }: { matches: MatchWithTeams[]
                       <span className="text-brand-teal text-sm font-bold">{match.team_a.siglas}</span>
                     </div>
 
-                    <div className="text-center min-w-[110px]">
-                      {live ? (
-                        <Badge variant="live">EN VIVO</Badge>
-                      ) : today ? (
-                        <Badge variant="pending">HOY</Badge>
+                    <div className="text-center min-w-[90px]">
+                      {today ? (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-brand-amber/20 text-brand-amber border border-brand-amber/40">
+                          HOY
+                        </span>
                       ) : (
                         <p className="text-brand-teal-light text-xs font-semibold">{formatDate(match.fecha)}</p>
-                      )}
-
-                      {!match.ganador_id && match.hora && (
-                        <div className="mt-1.5 flex flex-col gap-0.5 text-xs">
-                          <span className="text-brand-teal-light font-semibold">
-                            🇦🇷 {formatHora(match.hora)}hs
-                          </span>
-                          <span className="text-brand-teal">
-                            🇨🇱 {horaChile(match.hora)}
-                          </span>
-                        </div>
-                      )}
-                      {!match.ganador_id && !match.hora && (
-                        <p className="text-brand-teal/40 text-xs mt-1">Por confirmar</p>
                       )}
                     </div>
 
@@ -75,24 +54,7 @@ export default function UpcomingMatches({ matches }: { matches: MatchWithTeams[]
                       </span>
                     </div>
                   </Card>
-
-                  {(live || today) && (
-                    <div className="bg-brand-navy/70 border-t border-brand-amber/10 px-4 py-2 flex items-center justify-end">
-                      {match.stream_url ? (
-                        <a
-                          href={match.stream_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 bg-brand-coral hover:bg-brand-coral/90 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-colors"
-                        >
-                          📺 Ver stream
-                        </a>
-                      ) : (
-                        <span className="text-brand-teal/30 text-xs">📺 Stream próximamente</span>
-                      )}
-                    </div>
-                  )}
-                </div>
+                </Link>
               )
             })}
           </div>
