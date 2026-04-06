@@ -17,12 +17,38 @@ export function formatTime(timeStr: string | null): string {
   return `${h}:${m}hs`
 }
 
+// Argentina es UTC-3 fijo (sin DST)
+function todayArgentina(): string {
+  const now = new Date()
+  const arg = new Date(now.getTime() - 3 * 60 * 60 * 1000)
+  return arg.toISOString().split('T')[0]
+}
+
 export function isToday(dateStr: string): boolean {
-  const today = new Date().toISOString().split('T')[0]
-  return dateStr === today
+  return dateStr === todayArgentina()
 }
 
 export function isPast(dateStr: string): boolean {
-  const today = new Date().toISOString().split('T')[0]
-  return dateStr < today
+  return dateStr < todayArgentina()
+}
+
+// Marca EN VIVO solo si la hora del partido ya llegó (margen ±3h)
+export function isLiveNow(fecha: string, hora: string | null): boolean {
+  if (fecha !== todayArgentina()) return false
+  if (!hora) return false
+  const now = new Date()
+  const argNow = new Date(now.getTime() - 3 * 60 * 60 * 1000)
+  const [h, m] = hora.split(':').map(Number)
+  const matchTime = new Date(argNow)
+  matchTime.setUTCHours(h, m, 0, 0)
+  const diffMs = argNow.getTime() - matchTime.getTime()
+  // Desde 15min antes hasta 3h después
+  return diffMs >= -15 * 60 * 1000 && diffMs <= 3 * 60 * 60 * 1000
+}
+
+// Chile está 1 hora menos que Argentina (UTC-4 desde abril 2026)
+export function horaChile(horaArg: string): string {
+  const [h, m] = horaArg.split(':').map(Number)
+  const chH = ((h - 1) + 24) % 24
+  return `${String(chH).padStart(2, '0')}:${String(m).padStart(2, '0')}hs`
 }

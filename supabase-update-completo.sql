@@ -6,6 +6,7 @@
 -- Columnas nuevas (no falla si ya existen)
 ALTER TABLE public.players ADD COLUMN IF NOT EXISTS nick TEXT;
 ALTER TABLE public.players ADD COLUMN IF NOT EXISTS pais TEXT;
+ALTER TABLE public.matches  ADD COLUMN IF NOT EXISTS stream_url TEXT;
 
 -- ================================================================
 -- MGS
@@ -38,7 +39,7 @@ UPDATE public.players SET nombre = 'Tiago',      nick = 'AFG 4EverBr0nz4#AFG' WH
 UPDATE public.players SET nombre = 'Alex',        nick = 'AlexB201#Myi'        WHERE team_id = '11111111-0000-0000-0000-000000000003' AND rol = 'Jungle'  AND suplente = false;
 UPDATE public.players SET nombre = 'Saro',        nick = 'Айртон Сенна#SAL'    WHERE team_id = '11111111-0000-0000-0000-000000000003' AND rol = 'Mid'     AND suplente = false;
 UPDATE public.players SET nombre = 'Skela',       nick = 'Skela#Skela'         WHERE team_id = '11111111-0000-0000-0000-000000000003' AND rol = 'ADC'     AND suplente = false;
-UPDATE public.players SET nombre = 'Morningstar', nick = 'Morningstaar#LAS', suplente = true  WHERE team_id = '11111111-0000-0000-0000-000000000003' AND rol = 'Support';
+UPDATE public.players SET nombre = 'Morningstar', nick = 'Morningstaar#LAS', suplente = false WHERE team_id = '11111111-0000-0000-0000-000000000003' AND rol = 'Support';
 UPDATE public.players SET nombre = 'Benja',       nick = 'Benjajax#LAS'        WHERE team_id = '11111111-0000-0000-0000-000000000003' AND rol = 'Jungle'  AND suplente = true;
 -- Lucio (ADC suplente) viene de AFG Academy → AFG
 UPDATE public.players SET team_id = '11111111-0000-0000-0000-000000000003', nombre = 'Lucio', nick = 'mlucio#mga', rol = 'ADC', suplente = true

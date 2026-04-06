@@ -82,6 +82,7 @@ export interface Database {
           fecha: string
           hora: string | null
           transmitido: boolean
+          stream_url: string | null
           created_at: string
         }
         Insert: {
@@ -92,6 +93,7 @@ export interface Database {
           fecha: string
           hora?: string | null
           transmitido?: boolean
+          stream_url?: string | null
           created_at?: string
         }
         Update: {
@@ -102,6 +104,7 @@ export interface Database {
           fecha?: string
           hora?: string | null
           transmitido?: boolean
+          stream_url?: string | null
           created_at?: string
         }
       }
