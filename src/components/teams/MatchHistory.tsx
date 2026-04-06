@@ -1,5 +1,5 @@
 import type { Match, Team } from '@/lib/supabase/types'
-import { formatDate, formatTime } from '@/lib/utils'
+import { formatDate } from '@/lib/utils'
 import Badge from '@/components/ui/Badge'
 
 type MatchFull = Match & {
@@ -21,9 +21,12 @@ export default function MatchHistory({
   return (
     <div className="space-y-2">
       {matches.map(match => {
-        const played  = match.ganador_id !== null
-        const won     = match.ganador_id === teamId
+        const played   = match.score_a !== null
+        const draw     = played && match.score_a === 1 && match.score_b === 1
+        const won      = match.ganador_id === teamId
         const opponent = match.team_a.id === teamId ? match.team_b : match.team_a
+        const myScore  = match.team_a.id === teamId ? match.score_a : match.score_b
+        const oppScore = match.team_a.id === teamId ? match.score_b : match.score_a
 
         return (
           <div
@@ -32,7 +35,11 @@ export default function MatchHistory({
           >
             <div className="flex items-center gap-3">
               {played ? (
-                <Badge variant={won ? 'win' : 'loss'}>{won ? 'V' : 'D'}</Badge>
+                draw ? (
+                  <Badge variant="pending">E</Badge>
+                ) : (
+                  <Badge variant={won ? 'win' : 'loss'}>{won ? 'V' : 'D'}</Badge>
+                )
               ) : (
                 <Badge variant="pending">Pend.</Badge>
               )}
@@ -40,14 +47,13 @@ export default function MatchHistory({
               <span className="text-brand-teal-light text-sm font-semibold">
                 {opponent.nombre}
               </span>
-              <span className="text-brand-teal text-xs">({opponent.siglas})</span>
-            </div>
-            <div className="text-right">
-              <p className="text-brand-teal text-xs">{formatDate(match.fecha)}</p>
-              {match.hora && (
-                <p className="text-brand-teal/60 text-xs">{formatTime(match.hora)}</p>
+              {played && (
+                <span className="text-brand-teal/60 text-xs font-mono">
+                  {myScore} — {oppScore}
+                </span>
               )}
             </div>
+            <p className="text-brand-teal text-xs">{formatDate(match.fecha)}</p>
           </div>
         )
       })}

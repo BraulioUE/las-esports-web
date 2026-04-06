@@ -11,21 +11,22 @@ export default async function StandingsPage() {
     supabase.from('standings').select('*'),
     supabase
       .from('matches')
-      .select('team_a_id, team_b_id, ganador_id, fecha')
-      .not('ganador_id', 'is', null)
+      .select('team_a_id, team_b_id, ganador_id, score_a, score_b, fecha')
+      .not('score_a', 'is', null)
       .order('fecha', { ascending: false }),
   ])
 
   // Calcular últimas 5 partidas por equipo
-  const last5Map: Record<string, ('W' | 'L')[]> = {}
+  const last5Map: Record<string, ('W' | 'E' | 'L')[]> = {}
   if (standings && allMatches) {
     for (const team of standings) {
       const teamMatches = allMatches
         .filter(m => m.team_a_id === team.id || m.team_b_id === team.id)
         .slice(0, 5)
-      last5Map[team.id] = teamMatches.map(m =>
-        m.ganador_id === team.id ? 'W' : 'L'
-      )
+      last5Map[team.id] = teamMatches.map(m => {
+        if (m.score_a === 1 && m.score_b === 1) return 'E'
+        return m.ganador_id === team.id ? 'W' : 'L'
+      })
     }
   }
 

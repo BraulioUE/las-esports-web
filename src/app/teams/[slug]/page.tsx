@@ -42,9 +42,10 @@ export default async function TeamPage({
       .order('fecha', { ascending: false }),
   ])
 
-  const playedMatches = matches?.filter(m => m.ganador_id !== null) ?? []
+  const playedMatches = matches?.filter(m => m.score_a !== null) ?? []
   const wins   = playedMatches.filter(m => m.ganador_id === team.id).length
-  const losses = playedMatches.filter(m => m.ganador_id !== team.id).length
+  const draws  = playedMatches.filter(m => m.score_a === 1 && m.score_b === 1).length
+  const losses = playedMatches.filter(m => m.ganador_id !== null && m.ganador_id !== team.id).length
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
@@ -69,6 +70,10 @@ export default async function TeamPage({
           <div>
             <p className="font-display text-3xl font-bold text-brand-amber">{wins}</p>
             <p className="text-brand-teal/60 text-xs">Victorias</p>
+          </div>
+          <div>
+            <p className="font-display text-3xl font-bold text-brand-teal">{draws}</p>
+            <p className="text-brand-teal/60 text-xs">Empates</p>
           </div>
           <div>
             <p className="font-display text-3xl font-bold text-red-400">{losses}</p>

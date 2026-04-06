@@ -79,6 +79,8 @@ export interface Database {
           team_a_id: string
           team_b_id: string
           ganador_id: string | null
+          score_a: number | null
+          score_b: number | null
           fecha: string
           hora: string | null
           transmitido: boolean
@@ -90,6 +92,8 @@ export interface Database {
           team_a_id: string
           team_b_id: string
           ganador_id?: string | null
+          score_a?: number | null
+          score_b?: number | null
           fecha: string
           hora?: string | null
           transmitido?: boolean
@@ -101,6 +105,8 @@ export interface Database {
           team_a_id?: string
           team_b_id?: string
           ganador_id?: string | null
+          score_a?: number | null
+          score_b?: number | null
           fecha?: string
           hora?: string | null
           transmitido?: boolean
@@ -143,9 +149,10 @@ export interface Database {
           siglas: string
           logo_url: string | null
           jugados: number
+          puntos: number
           ganados: number
+          empates: number
           perdidos: number
-          win_rate: number
         }
       }
     }

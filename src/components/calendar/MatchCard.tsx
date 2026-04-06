@@ -15,7 +15,8 @@ function formatHora(hora: string) {
 }
 
 export default function MatchCard({ match }: { match: MatchFull }) {
-  const played  = match.ganador_id !== null
+  const played  = match.score_a !== null
+  const draw    = played && match.score_a === 1 && match.score_b === 1
   const live    = isLiveNow(match.fecha, match.hora) && !played
   const today   = isToday(match.fecha) && !played
   const winnerA = played && match.ganador_id === match.team_a.id
@@ -46,14 +47,18 @@ export default function MatchCard({ match }: { match: MatchFull }) {
           {live ? (
             <Badge variant="live">EN VIVO</Badge>
           ) : played ? (
-            <Badge variant={winnerA ? 'win' : 'loss'}>
-              {winnerA ? 'V' : 'D'} — {winnerB ? 'V' : 'D'}
-            </Badge>
+            draw ? (
+              <Badge variant="pending">{match.score_a} — {match.score_b}</Badge>
+            ) : (
+              <Badge variant={winnerA ? 'win' : 'loss'}>
+                {match.score_a} — {match.score_b}
+              </Badge>
+            )
           ) : (
             <span className="text-brand-teal/60 text-sm font-bold">VS</span>
           )}
 
-          {/* Horarios ARG / CHI — siempre visibles cuando hay hora */}
+          {/* Horarios ARG / CHI */}
           {!played && !live && match.hora && (
             <div className="mt-1.5 flex flex-col gap-0.5 text-xs">
               <span className="text-brand-teal-light font-semibold">

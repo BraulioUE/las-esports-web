@@ -9,7 +9,7 @@ export default function StandingsTable({
   last5Map,
 }: {
   standings: Standing[]
-  last5Map: Record<string, ('W' | 'L')[]>
+  last5Map: Record<string, ('W' | 'E' | 'L')[]>
 }) {
   return (
     <div className="overflow-x-auto">
@@ -20,8 +20,9 @@ export default function StandingsTable({
             <th className="text-brand-teal font-semibold text-left py-3 px-4">Equipo</th>
             <th className="text-brand-teal font-semibold text-center py-3 px-4">J</th>
             <th className="text-brand-teal font-semibold text-center py-3 px-4">V</th>
+            <th className="text-brand-teal font-semibold text-center py-3 px-4">E</th>
             <th className="text-brand-teal font-semibold text-center py-3 px-4">D</th>
-            <th className="text-brand-teal font-semibold text-center py-3 px-4">%</th>
+            <th className="text-brand-amber font-bold text-center py-3 px-4">PTS</th>
             <th className="text-brand-teal font-semibold text-center py-3 px-4">Últimas 5</th>
           </tr>
         </thead>
@@ -46,9 +47,10 @@ export default function StandingsTable({
               </td>
               <td className="py-3 px-4 text-center text-brand-teal-light">{team.jugados}</td>
               <td className="py-3 px-4 text-center text-brand-amber font-bold">{team.ganados}</td>
+              <td className="py-3 px-4 text-center text-brand-teal-light">{team.empates}</td>
               <td className="py-3 px-4 text-center text-red-400">{team.perdidos}</td>
-              <td className="py-3 px-4 text-center text-brand-amber font-semibold">
-                {team.win_rate}%
+              <td className="py-3 px-4 text-center">
+                <span className="font-display text-lg font-bold text-brand-amber">{team.puntos}</span>
               </td>
               <td className="py-3 px-4">
                 <div className="flex justify-center">
