@@ -54,7 +54,7 @@ export default function MatchCard({ match }: { match: MatchFull }) {
           )}
 
           {/* Horarios ARG / CHI — siempre visibles cuando hay hora */}
-          {!played && match.hora && (
+          {!played && !live && match.hora && (
             <div className="mt-1.5 flex flex-col gap-0.5 text-xs">
               <span className="text-brand-teal-light font-semibold">
                 🇦🇷 {formatHora(match.hora)}hs
