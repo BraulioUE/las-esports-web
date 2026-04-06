@@ -91,7 +91,7 @@ export default function RosterTable({ players }: { players: Player[] }) {
       {/* Suplentes */}
       {suplentes.length > 0 && (
         <div className="mt-4 pt-4 border-t border-brand-teal/20">
-          <p className="text-brand-coral text-xs font-bold uppercase tracking-wider mb-2">
+          <p className="text-white/50 text-xs font-bold uppercase tracking-wider mb-2">
             Suplentes
           </p>
           <div className="divide-y divide-brand-teal/10">
