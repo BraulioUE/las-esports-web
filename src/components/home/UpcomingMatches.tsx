@@ -68,14 +68,6 @@ export default function UpcomingMatches({ matches }: { matches: MatchWithTeams[]
                     </div>
                   </div>
 
-                  {/* Panel stream */}
-                  {match.stream_url && (
-                    <div className="bg-brand-navy/70 border-t border-brand-amber/10 px-4 py-2 flex items-center justify-end">
-                      <span className="flex items-center gap-1.5 bg-brand-coral text-white text-xs font-bold px-3 py-1.5 rounded-lg">
-                        📺 Ver stream en Calendario
-                      </span>
-                    </div>
-                  )}
                 </Link>
               )
             })}
