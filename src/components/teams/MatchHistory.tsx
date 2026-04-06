@@ -1,5 +1,5 @@
 import type { Match, Team } from '@/lib/supabase/types'
-import { formatDate } from '@/lib/utils'
+import { formatDate, isToday } from '@/lib/utils'
 import Badge from '@/components/ui/Badge'
 
 type MatchFull = Match & {
@@ -23,6 +23,7 @@ export default function MatchHistory({
       {matches.map(match => {
         const played   = match.score_a !== null
         const draw     = played && match.score_a === 1 && match.score_b === 1
+        const today    = !played && isToday(match.fecha)
         const won      = match.ganador_id === teamId
         const opponent = match.team_a.id === teamId ? match.team_b : match.team_a
         const myScore  = match.team_a.id === teamId ? match.score_a : match.score_b
@@ -40,6 +41,8 @@ export default function MatchHistory({
                 ) : (
                   <Badge variant={won ? 'win' : 'loss'}>{won ? 'V' : 'D'}</Badge>
                 )
+              ) : today ? (
+                <Badge variant="amber">HOY</Badge>
               ) : (
                 <Badge variant="pending">Pend.</Badge>
               )}
