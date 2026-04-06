@@ -28,23 +28,44 @@ function opggUrl(nick: string): string {
   return `https://www.op.gg/summoners/las/${formatted}`
 }
 
+function TwitchIcon() {
+  return (
+    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/>
+    </svg>
+  )
+}
+
 function PlayerEntry({ player }: { player: Player }) {
   const url   = player.nick ? opggUrl(player.nick) : null
   const flag  = player.pais ? (flags[player.pais.toUpperCase()] ?? null) : null
 
   const content = (
-    <span className="flex flex-col leading-tight">
-      <span className="text-white font-bold text-base">
-        {player.nick ?? player.nombre}
-      </span>
-      {player.nick && (
-        <span className="flex items-center gap-1 text-brand-teal text-xs">
-          {player.nombre}
-          {flag && <span className="leading-none">{flag}</span>}
+    <span className="flex items-center gap-2">
+      <span className="flex flex-col leading-tight">
+        <span className="text-white font-bold text-base">
+          {player.nick ?? player.nombre}
         </span>
-      )}
-      {!player.nick && flag && (
-        <span className="text-xs leading-none">{flag}</span>
+        {player.nick && (
+          <span className="flex items-center gap-1 text-brand-teal text-xs">
+            {player.nombre}
+            {flag && <span className="leading-none">{flag}</span>}
+          </span>
+        )}
+        {!player.nick && flag && (
+          <span className="text-xs leading-none">{flag}</span>
+        )}
+      </span>
+      {player.twitch_url && (
+        <a
+          href={player.twitch_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[#9146FF] hover:text-white transition-colors shrink-0"
+          onClick={e => e.stopPropagation()}
+        >
+          <TwitchIcon />
+        </a>
       )}
     </span>
   )

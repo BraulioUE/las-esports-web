@@ -50,6 +50,7 @@ export interface Database {
           rol: 'Top' | 'Jungle' | 'Mid' | 'ADC' | 'Support'
           suplente: boolean
           pais: string | null
+          twitch_url: string | null
           created_at: string
         }
         Insert: {
@@ -60,6 +61,7 @@ export interface Database {
           rol: 'Top' | 'Jungle' | 'Mid' | 'ADC' | 'Support'
           suplente?: boolean
           pais?: string | null
+          twitch_url?: string | null
           created_at?: string
         }
         Update: {
@@ -70,6 +72,7 @@ export interface Database {
           rol?: 'Top' | 'Jungle' | 'Mid' | 'ADC' | 'Support'
           suplente?: boolean
           pais?: string | null
+          twitch_url?: string | null
           created_at?: string
         }
       }
