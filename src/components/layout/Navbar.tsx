@@ -12,7 +12,7 @@ export default function Navbar() {
     <header className="bg-brand-panel/90 backdrop-blur-sm border-b border-brand-teal/20 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         <Link href="/" className="font-display text-2xl font-bold text-brand-teal-light tracking-wide hover:text-brand-amber transition-colors">
-          LAS <span className="text-brand-amber">Esports</span>
+          MGS <span className="text-brand-amber">ALLIN</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
