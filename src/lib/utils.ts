@@ -32,17 +32,15 @@ export function isPast(dateStr: string): boolean {
   return dateStr < todayArgentina()
 }
 
-// Marca EN VIVO solo si la hora del partido ya llegó (margen ±3h)
+// Marca EN VIVO solo si la hora del partido ya llegó (15min antes → 3h después)
+// hora está en tiempo ARG (UTC-3)
 export function isLiveNow(fecha: string, hora: string | null): boolean {
   if (fecha !== todayArgentina()) return false
   if (!hora) return false
-  const now = new Date()
-  const argNow = new Date(now.getTime() - 3 * 60 * 60 * 1000)
-  const [h, m] = hora.split(':').map(Number)
-  const matchTime = new Date(argNow)
-  matchTime.setUTCHours(h, m, 0, 0)
-  const diffMs = argNow.getTime() - matchTime.getTime()
-  // Desde 15min antes hasta 3h después
+  const horaShort = hora.substring(0, 5) // '22:30'
+  const matchUtcMs = new Date(`${fecha}T${horaShort}:00-03:00`).getTime()
+  const nowMs = Date.now()
+  const diffMs = nowMs - matchUtcMs
   return diffMs >= -15 * 60 * 1000 && diffMs <= 3 * 60 * 60 * 1000
 }
 

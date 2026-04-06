@@ -47,7 +47,7 @@ export default function MatchCard({ match }: { match: MatchFull }) {
           ) : (
             <div>
               <span className="text-brand-teal/60 text-sm font-bold">VS</span>
-              {match.hora && (
+              {match.hora && !today && (
                 <p className="text-brand-teal text-xs mt-1">{formatTime(match.hora)}</p>
               )}
             </div>
@@ -71,20 +71,26 @@ export default function MatchCard({ match }: { match: MatchFull }) {
         </div>
       </div>
 
-      {/* Panel de horarios — solo cuando la partida es hoy y no ha sido jugada */}
-      {today && match.hora && (
-        <div className="bg-brand-navy/60 border-t border-brand-amber/10 px-4 py-2 flex items-center justify-between gap-4 flex-wrap">
-          <div className="flex items-center gap-6 text-xs">
-            <span className="flex items-center gap-1.5 text-brand-teal">
-              🇦🇷 <span className="text-brand-teal-light font-semibold">{formatTime(match.hora)}</span>
-              <span className="text-brand-teal/50">ARG</span>
-            </span>
-            <span className="flex items-center gap-1.5 text-brand-teal">
-              🇨🇱 <span className="text-brand-teal-light font-semibold">{horaChile(match.hora)}</span>
-              <span className="text-brand-teal/50">CHI</span>
-            </span>
-          </div>
-          {match.stream_url && (
+      {/* Panel inferior — visible en todas las partidas de HOY no jugadas */}
+      {today && (
+        <div className="bg-brand-navy/70 border-t border-brand-amber/10 px-4 py-2.5 flex items-center justify-between gap-4 flex-wrap">
+          {match.hora ? (
+            <div className="flex items-center gap-5 text-xs">
+              <span className="flex items-center gap-1.5 text-brand-teal">
+                🇦🇷 <span className="text-brand-teal-light font-bold">{formatTime(match.hora)}</span>
+                <span className="text-brand-teal/50">ARG</span>
+              </span>
+              <span className="text-brand-teal/20">|</span>
+              <span className="flex items-center gap-1.5 text-brand-teal">
+                🇨🇱 <span className="text-brand-teal-light font-bold">{horaChile(match.hora)}</span>
+                <span className="text-brand-teal/50">CHI</span>
+              </span>
+            </div>
+          ) : (
+            <span className="text-brand-teal/50 text-xs italic">Horario por confirmar</span>
+          )}
+
+          {match.stream_url ? (
             <a
               href={match.stream_url}
               target="_blank"
@@ -93,9 +99,8 @@ export default function MatchCard({ match }: { match: MatchFull }) {
             >
               📺 Ver stream
             </a>
-          )}
-          {!match.stream_url && live && (
-            <span className="text-brand-teal/40 text-xs italic">Stream no disponible</span>
+          ) : (
+            <span className="text-brand-teal/30 text-xs">📺 Stream próximamente</span>
           )}
         </div>
       )}
