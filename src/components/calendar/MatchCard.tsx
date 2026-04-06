@@ -1,12 +1,17 @@
 import type { Match, Team } from '@/lib/supabase/types'
 import Badge from '@/components/ui/Badge'
 import TeamLogo from '@/components/ui/TeamLogo'
-import { formatTime, isToday, isLiveNow, horaChile } from '@/lib/utils'
+import { isToday, isLiveNow, horaChile } from '@/lib/utils'
 
 type MatchFull = Match & {
   team_a: Pick<Team, 'id' | 'nombre' | 'siglas' | 'logo_url'>
   team_b: Pick<Team, 'id' | 'nombre' | 'siglas' | 'logo_url'>
   ganador?: Pick<Team, 'id' | 'nombre' | 'siglas'> | null
+}
+
+function formatHora(hora: string) {
+  const [h, m] = hora.split(':')
+  return `${h}:${m}`
 }
 
 export default function MatchCard({ match }: { match: MatchFull }) {
@@ -37,7 +42,7 @@ export default function MatchCard({ match }: { match: MatchFull }) {
         </div>
 
         {/* Centro */}
-        <div className="text-center min-w-[80px]">
+        <div className="text-center min-w-[100px]">
           {live ? (
             <Badge variant="live">EN VIVO</Badge>
           ) : played ? (
@@ -45,12 +50,22 @@ export default function MatchCard({ match }: { match: MatchFull }) {
               {winnerA ? 'V' : 'D'} — {winnerB ? 'V' : 'D'}
             </Badge>
           ) : (
-            <div>
-              <span className="text-brand-teal/60 text-sm font-bold">VS</span>
-              {match.hora && !today && (
-                <p className="text-brand-teal text-xs mt-1">{formatTime(match.hora)}</p>
-              )}
+            <span className="text-brand-teal/60 text-sm font-bold">VS</span>
+          )}
+
+          {/* Horarios ARG / CHI — siempre visibles cuando hay hora */}
+          {!played && match.hora && (
+            <div className="mt-1.5 flex flex-col gap-0.5 text-xs">
+              <span className="text-brand-teal-light font-semibold">
+                🇦🇷 {formatHora(match.hora)}hs
+              </span>
+              <span className="text-brand-teal">
+                🇨🇱 {horaChile(match.hora)}
+              </span>
             </div>
+          )}
+          {!played && !match.hora && (
+            <p className="text-brand-teal/40 text-xs mt-1">Por confirmar</p>
           )}
         </div>
 
@@ -71,25 +86,9 @@ export default function MatchCard({ match }: { match: MatchFull }) {
         </div>
       </div>
 
-      {/* Panel inferior — visible en todas las partidas de HOY no jugadas */}
+      {/* Panel de stream — solo el día del partido */}
       {today && (
-        <div className="bg-brand-navy/70 border-t border-brand-amber/10 px-4 py-2.5 flex items-center justify-between gap-4 flex-wrap">
-          {match.hora ? (
-            <div className="flex items-center gap-5 text-xs">
-              <span className="flex items-center gap-1.5 text-brand-teal">
-                🇦🇷 <span className="text-brand-teal-light font-bold">{formatTime(match.hora)}</span>
-                <span className="text-brand-teal/50">ARG</span>
-              </span>
-              <span className="text-brand-teal/20">|</span>
-              <span className="flex items-center gap-1.5 text-brand-teal">
-                🇨🇱 <span className="text-brand-teal-light font-bold">{horaChile(match.hora)}</span>
-                <span className="text-brand-teal/50">CHI</span>
-              </span>
-            </div>
-          ) : (
-            <span className="text-brand-teal/50 text-xs italic">Horario por confirmar</span>
-          )}
-
+        <div className="bg-brand-navy/70 border-t border-brand-amber/10 px-4 py-2 flex items-center justify-end">
           {match.stream_url ? (
             <a
               href={match.stream_url}
