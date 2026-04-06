@@ -6,7 +6,7 @@ export default function Footer() {
           MGS <span className="text-brand-amber">ALLIN</span>
         </p>
         <p className="text-brand-teal text-sm">
-          © {new Date().getFullYear()} LAS Esports. Todos los derechos reservados.
+          © {new Date().getFullYear()} MGS ALL IN. Todos los derechos reservados.
         </p>
         <p className="text-brand-teal/60 text-xs">
           Organizado por MGS — Migajeros
