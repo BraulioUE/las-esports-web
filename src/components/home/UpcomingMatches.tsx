@@ -2,17 +2,13 @@ import Link from 'next/link'
 import type { Match, Team } from '@/lib/supabase/types'
 import Badge from '@/components/ui/Badge'
 import TeamLogo from '@/components/ui/TeamLogo'
-import { isToday, isLiveNow, horaChile } from '@/lib/utils'
+import { isToday, isLiveNow } from '@/lib/utils'
 
 type MatchWithTeams = Match & {
   team_a: Pick<Team, 'nombre' | 'siglas' | 'logo_url'>
   team_b: Pick<Team, 'nombre' | 'siglas' | 'logo_url'>
 }
 
-function formatHora(hora: string) {
-  const [h, m] = hora.split(':')
-  return `${h}:${m}`
-}
 
 export default function UpcomingMatches({ matches }: { matches: MatchWithTeams[] }) {
   return (
@@ -57,16 +53,6 @@ export default function UpcomingMatches({ matches }: { matches: MatchWithTeams[]
                         <Badge variant="amber">HOY</Badge>
                       ) : (
                         <span className="text-brand-teal/60 text-sm font-bold">VS</span>
-                      )}
-                      {match.hora && (
-                        <div className="mt-1.5 flex flex-col gap-0.5 text-xs">
-                          <span className="text-brand-teal-light font-semibold">
-                            🇦🇷 {formatHora(match.hora)}hs
-                          </span>
-                          <span className="text-brand-teal">
-                            🇨🇱 {horaChile(match.hora)}
-                          </span>
-                        </div>
                       )}
                     </div>
 
