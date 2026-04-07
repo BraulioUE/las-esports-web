@@ -22,7 +22,7 @@ export default async function HomePage() {
       supabase
         .from('matches')
         .select('*', { count: 'exact', head: true })
-        .not('ganador_id', 'is', null),
+        .not('score_a', 'is', null),
     ])
 
   return (
