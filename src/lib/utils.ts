@@ -44,9 +44,9 @@ export function isLiveNow(fecha: string, hora: string | null): boolean {
   return diffMs >= -15 * 60 * 1000 && diffMs <= 3 * 60 * 60 * 1000
 }
 
-// Chile está 2 horas menos que Argentina (UTC-3 ARG vs UTC-5 CHI)
+// Chile está 1 hora menos que Argentina (UTC-3 ARG vs UTC-4 CHI)
 export function horaChile(horaArg: string): string {
   const [h, m] = horaArg.split(':').map(Number)
-  const chH = ((h - 2) + 24) % 24
+  const chH = ((h - 1) + 24) % 24
   return `${String(chH).padStart(2, '0')}:${String(m).padStart(2, '0')}hs`
 }
